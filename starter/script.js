@@ -2,6 +2,11 @@
 
 let number = Math.trunc(Math.random() * 20 + 1);
 let score = 20;
+let highscore = 0;
+
+const displayMessage = function (message) {
+  document.querySelector(".message").textContent = message;
+}
 document.querySelector('.number').textContent = number;
 
 document.querySelector('.check').addEventListener('click', function () {
@@ -14,19 +19,23 @@ document.querySelector('.check').addEventListener('click', function () {
       
       document.querySelector("body").style.backgroundColor = "#60b347";
       document.querySelector(".number").style.width = "30rem";
-      document.querySelector('.message').textContent = 'CORRECT!!!!!!';
-    } else if (guess < number) {
-      document.querySelector('.message').textContent = 'GUESS A BIT TOO LOW';
+      displayMessage('CORRECT!!!!!!');
+      document.querySelector(".number").textContent = guess;
+
+      if (score >= highscore) {
+        console.log("heyy")
+        highscore = score;
+        document.querySelector('.highscore').textContent = highscore;
+      }
+    } else if (guess !== number) {
+
       score--;
-      document.querySelector('.score').textContent = score;
-    } else if (guess > number) {
-      document.querySelector('.message').textContent =
-        'GUESS IS A BIT TOO HIGH';
-      score--;
-      document.querySelector('.score').textContent = score;
+      guess < number ? displayMessage('GUESS A BIT TOO LOW') : displayMessage('GUESS IS A BIT TOO HIGH');
+      document.querySelector(".score").textContent = score;
+     
     }
   } else{
-    document.querySelector(".message").textContent = "GAME OVER!!"
+    displayMessage("GAME OVER!!");
   }
 });
 
@@ -36,6 +45,6 @@ document.querySelector(".again").addEventListener('click', function () {
     score = 20;
     document.querySelector(".guess").value = "";
     document.querySelector(".number").style.width = "15rem";
-    document.querySelector(".message").textContent = "Start Guessing";
+    displayMessage("Start Guessing");
     document.querySelector("body").style.backgroundColor = "#222";
 })
